@@ -2,12 +2,7 @@ import { connect } from 'react-redux';
 import * as ActionCreators from './actions';
 
 function App (props) {
-  const { step, count, dispatch } = props;
-  const increment = () => dispatch(ActionCreators.increment());
-  const decrement = () => dispatch(ActionCreators.decrement());
-  const onStepChange = ({ target: { value } }) => 
-    dispatch(ActionCreators.setStep(Number(value)));
-
+  const { step, count, increment, decrement, onStepChange } = props;
   return (
     <div>
       <h1>Current count: {count}</h1>
@@ -18,7 +13,17 @@ function App (props) {
   );
 }
 
-const mapStateToProps = state => (state);
+const mapStateToProps = state => state;
+
+const mapDispatchToProps = dispatch => {
+  return {
+    // dispatching plain actions
+    increment: () => dispatch(ActionCreators.increment()),
+    decrement: () => dispatch(ActionCreators.decrement()),
+    onStepChange: ({ target: { value } }) =>
+      dispatch(ActionCreators.setStep(value)),
+  };
+};
 
 /*
 const withProps = connect(mapStateToProps);
@@ -26,4 +31,4 @@ const ComponentWithProps = withProps(App);
 export default ComponentWithProps;
 */
 
-export default connect(mapStateToProps)(App);
+export default connect(mapStateToProps, mapDispatchToProps)(App);
